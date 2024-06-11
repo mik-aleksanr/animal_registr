@@ -1,0 +1,543 @@
+1. Использование команды cat в Linux
+
+PS C:\Users\mik-a> ssh mik-aleks@192.168.100.63
+mik-aleks@192.168.100.63's password:
+Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 6.5.0-35-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+Расширенное поддержание безопасности (ESM) для Applications выключено.
+
+0 обновлений может быть применено немедленно.
+
+Включите ESM Apps для получения дополнительных будущих обновлений безопасности.
+Смотрите https://ubuntu.com/esm или выполните: sudo pro status
+
+Last login: Sat Jun  8 12:27:43 2024 from 192.168.100.26
+mik-aleks@mik-aleks-VirtualBox:~$ sudo su
+[sudo] пароль для mik-aleks:
+
+# Создадим два текстовых файла с домашними и вьючными животными соответственно
+root@mik-aleks-VirtualBox:/home/mik-aleks# echo -e "Собака\nКошка\nХомяк" > Pets.txt
+root@mik-aleks-VirtualBox:/home/mik-aleks# echo -e "Лошадь\nВерблюд\nОсел" > PackAnimals.txt
+
+# Обьединим содержимое двух файлов и посмотрим их содержимое
+root@mik-aleks-VirtualBox:/home/mik-aleks# cat Pets.txt PackAnimals.txt > Combined.txt
+root@mik-aleks-VirtualBox:/home/mik-aleks# cat Combinet.txt
+cat: Combinet.txt: Нет такого файла или каталога
+root@mik-aleks-VirtualBox:/home/mik-aleks# cat Combined.txt
+Собака
+Кошка
+Хомяк
+Лошадь
+Верблюд
+Осел
+
+# Переименуем получившийся файл
+root@mik-aleks-VirtualBox:/home/mik-aleks# mv Combined.txt HumanFriends.txt
+root@mik-aleks-VirtualBox:/home/mik-aleks# ls
+ HumanFriends.txt   PackAnimals.txt   snap    Документы   Изображения   Общедоступные   Шаблоны
+ inwindows          Pets.txt          Видео   Загрузки    Музыка       'Рабочий стол'
+root@mik-aleks-VirtualBox:/home/mik-aleks#
+
+2. Работа с директориями в Linux
+
+# Создадим дирректорию
+root@mik-aleks-VirtualBox:/home/mik-aleks# mkdir NewDirectory
+root@mik-aleks-VirtualBox:/home/mik-aleks# ls NewDirectory
+root@mik-aleks-VirtualBox:/home/mik-aleks# ls
+ HumanFriends.txt   NewDirectory      Pets.txt   Видео       Загрузки      Музыка         'Рабочий стол'
+ inwindows          PackAnimals.txt   snap       Документы   Изображения   Общедоступные   Шаблоны
+
+# Перенесем ранее созданный файл "HumanFriends.txt" в новую директорию
+root@mik-aleks-VirtualBox:/home/mik-aleks# mv HumanFriends.txt NewDirectory
+root@mik-aleks-VirtualBox:/home/mik-aleks# ls NewDirectory
+HumanFriends.txt
+root@mik-aleks-VirtualBox:/home/mik-aleks#
+
+
+3. Работа с MySQL в Linux. “Установить MySQL на вашу вычислительную машину ” и 4. Управление deb-пакетами
+Объединим задания 3 и 4 и установим пакет mysql-apt-config при помощи команды dpkg
+
+# Скачаем APT репозиторий конфигурационного пакета для MySQL
+root@mik-aleks-VirtualBox:/home/mik-aleks# wget https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+--2024-06-08 15:19:26--  https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+Распознаётся dev.mysql.com (dev.mysql.com)… 23.211.74.232, 2a02:26f0:d200:48c::2e31, 2a02:26f0:d200:493::2e31
+Подключение к dev.mysql.com (dev.mysql.com)|23.211.74.232|:443... соединение установлено.
+HTTP-запрос отправлен. Ожидание ответа… 302 Moved Temporarily
+Адрес: https://repo.mysql.com//mysql-apt-config_0.8.22-1_all.deb [переход]
+--2024-06-08 15:19:26--  https://repo.mysql.com//mysql-apt-config_0.8.22-1_all.deb
+Распознаётся repo.mysql.com (repo.mysql.com)… 104.81.113.179, 2a02:26f0:d200:889::1d68, 2a02:26f0:d200:888::1d68
+Подключение к repo.mysql.com (repo.mysql.com)|104.81.113.179|:443... соединение установлено.
+HTTP-запрос отправлен. Ожидание ответа… 200 OK
+Длина: 18012 (18K) [application/x-debian-package]
+Сохранение в: ‘mysql-apt-config_0.8.22-1_all.deb’
+
+mysql-apt-config_0.8.22-1_all.deb       100%[========================================================================
+====>]  17,59K  --.-KB/s    за 0,008s
+
+2024-06-08 15:19:26 (2,16 MB/s) - ‘mysql-apt-config_0.8.22-1_all.deb’ сохранён [18012/18012]
+
+# Установим скачаный пакет при помощи команды dpkg
+root@mik-aleks-VirtualBox:/home/mik-aleks# dpkg -i mysql-apt-config_0.8.22-1_all.deb
+Выбор ранее не выбранного пакета mysql-apt-config.
+(Чтение базы данных … на данный момент установлено 188093 файла и каталога.)
+Подготовка к распаковке mysql-apt-config_0.8.22-1_all.deb …
+Распаковывается mysql-apt-config (0.8.22-1) …
+Настраивается пакет mysql-apt-config (0.8.22-1) …
+Warning: apt-key should not be used in scripts (called from postinst maintainerscript of the package
+ mysql-apt-config)
+Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+OK
+
+# Обновим список пакетов
+root@mik-aleks-VirtualBox:/home/mik-aleks# apt update
+Сущ:1 http://ru.archive.ubuntu.com/ubuntu jammy InRelease
+Пол:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+Пол:4 http://repo.mysql.com/apt/ubuntu jammy InRelease [25,1 kB]
+Сущ:5 http://ru.archive.ubuntu.com/ubuntu jammy-backports InRelease
+Ошб:4 http://repo.mysql.com/apt/ubuntu jammy InRelease
+  Следующие подписи не могут быть проверены, так как недоступен открытый ключ: NO_PUBKEY B7B3B788A8D3785C
+Чтение списков пакетов… Готово
+W: Ошибка GPG: http://repo.mysql.com/apt/ubuntu jammy InRelease: Следующие подписи не могут быть проверены,
+так как недоступен открытый ключ: NO_PUBKEY B7B3B788A8D3785C
+E: Репозиторий «http://repo.mysql.com/apt/ubuntu jammy InRelease» не подписан.
+N: Обновление из этого репозитория нельзя выполнить безопасным способом, поэтому по умолчанию он отключён.
+N: Информацию о создании репозитория и настройках пользователя смотрите в справочной странице apt-secure(8).
+
+# Установим MySQL сервер
+root@mik-aleks-VirtualBox:/home/mik-aleks# apt install mysql-server
+Чтение списков пакетов… Готово
+Построение дерева зависимостей… Готово
+Чтение информации о состоянии… Готово
+Следующие пакеты устанавливались автоматически и больше не требуются:
+  libwpe-1.0-1 libwpebackend-fdo-1.0-1
+Для их удаления используйте «sudo apt autoremove».
+Будут установлены следующие дополнительные пакеты:
+  libaio1 libcgi-fast-perl libcgi-pm-perl libevent-core-2.1-7 libevent-pthreads-2.1-7 libfcgi-bin libfcgi-perl
+   libfcgi0ldbl libhtml-template-perl libmecab2
+  libprotobuf-lite23 mecab-ipadic mecab-ipadic-utf8 mecab-utils mysql-client-8.0 mysql-client-core-8.0
+   mysql-common mysql-server-8.0 mysql-server-core-8.0
+Предлагаемые пакеты:
+  libipc-sharedcache-perl mailx tinyca
+Следующие НОВЫЕ пакеты будут установлены:
+  libaio1 libcgi-fast-perl libcgi-pm-perl libevent-core-2.1-7 libevent-pthreads-2.1-7 libfcgi-bin libfcgi-perl
+   libfcgi0ldbl libhtml-template-perl libmecab2
+  libprotobuf-lite23 mecab-ipadic mecab-ipadic-utf8 mecab-utils mysql-client-8.0 mysql-client-core-8.0
+  mysql-common mysql-server mysql-server-8.0
+  mysql-server-core-8.0
+Обновлено 0 пакетов, установлено 20 новых пакетов, для удаления отмечено 0 пакетов, и 0 пакетов не обновлено.
+Необходимо скачать 29,2 MB архивов.
+После данной операции объём занятого дискового пространства возрастёт на 242 MB.
+Хотите продолжить? [Д/н] y
+Пол:1 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 mysql-common all 5.8+1.0.8 [7 212 B]
+Пол:2 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-client-core-8.0 amd64 8.0.36-0ubuntu0.22.04.1
+ [2 692 kB]
+Пол:3 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-client-8.0 amd64 8.0.36-0ubuntu0.22.04.1
+ [22,7 kB]
+Пол:4 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libaio1 amd64 0.3.112-13build1 [7 176 B]
+Пол:5 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-core-2.1-7 amd64 2.1.12-stable-1build3 [93,9 kB]
+Пол:6 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-pthreads-2.1-7 amd64 2.1.12-stable-1build3
+[7 642 B]
+Пол:7 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libmecab2 amd64 0.996-14build9 [199 kB]
+Пол:8 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libprotobuf-lite23 amd64 3.12.4-1ubuntu7.22.04.1 [209 kB]
+Пол:9 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-server-core-8.0 amd64 8.0.36-0ubuntu0.22.04.1 [17,5 MB]
+Пол:10 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-server-8.0 amd64 8.0.36-0ubuntu0.22.04.1 [1 437 kB]
+Пол:11 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libcgi-pm-perl all 4.54-1 [188 kB]
+Пол:12 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libfcgi0ldbl amd64 2.4.2-2build2 [28,0 kB]
+Пол:13 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libfcgi-perl amd64 0.82+ds-1build1 [22,8 kB]
+Пол:14 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libcgi-fast-perl all 1:2.15-1 [10,5 kB]
+Пол:15 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libfcgi-bin amd64 2.4.2-2build2 [11,2 kB]
+Пол:16 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libhtml-template-perl all 2.97-1.1 [59,1 kB]
+Пол:17 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 mecab-utils amd64 0.996-14build9 [4 850 B]
+Пол:18 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 mecab-ipadic all 2.7.0-20070801+main-3 [6 718 kB]
+Пол:19 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 mecab-ipadic-utf8 all 2.7.0-20070801+main-3 [4 384 B]
+Пол:20 http://ru.archive.ubuntu.com/ubuntu jammy-updates/main amd64 mysql-server all 8.0.36-0ubuntu0.22.04.1 [9 460 B]
+Получено 29,2 MB за 13с (2 233 kB/s)
+Предварительная настройка пакетов …
+Выбор ранее не выбранного пакета mysql-common.
+(Чтение базы данных … на данный момент установлено 188098 файлов и каталогов.)
+Подготовка к распаковке …/0-mysql-common_5.8+1.0.8_all.deb …
+Распаковывается mysql-common (5.8+1.0.8) …
+Выбор ранее не выбранного пакета mysql-client-core-8.0.
+Подготовка к распаковке …/1-mysql-client-core-8.0_8.0.36-0ubuntu0.22.04.1_amd64.deb …
+Распаковывается mysql-client-core-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Выбор ранее не выбранного пакета mysql-client-8.0.
+Подготовка к распаковке …/2-mysql-client-8.0_8.0.36-0ubuntu0.22.04.1_amd64.deb …
+Распаковывается mysql-client-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Выбор ранее не выбранного пакета libaio1:amd64.
+Подготовка к распаковке …/3-libaio1_0.3.112-13build1_amd64.deb …
+Распаковывается libaio1:amd64 (0.3.112-13build1) …
+Выбор ранее не выбранного пакета libevent-core-2.1-7:amd64.
+Подготовка к распаковке …/4-libevent-core-2.1-7_2.1.12-stable-1build3_amd64.deb …
+Распаковывается libevent-core-2.1-7:amd64 (2.1.12-stable-1build3) …
+Выбор ранее не выбранного пакета libevent-pthreads-2.1-7:amd64.
+Подготовка к распаковке …/5-libevent-pthreads-2.1-7_2.1.12-stable-1build3_amd64.deb …
+Распаковывается libevent-pthreads-2.1-7:amd64 (2.1.12-stable-1build3) …
+Выбор ранее не выбранного пакета libmecab2:amd64.
+Подготовка к распаковке …/6-libmecab2_0.996-14build9_amd64.deb …
+Распаковывается libmecab2:amd64 (0.996-14build9) …
+Выбор ранее не выбранного пакета libprotobuf-lite23:amd64.
+Подготовка к распаковке …/7-libprotobuf-lite23_3.12.4-1ubuntu7.22.04.1_amd64.deb …
+Распаковывается libprotobuf-lite23:amd64 (3.12.4-1ubuntu7.22.04.1) …
+Выбор ранее не выбранного пакета mysql-server-core-8.0.
+Подготовка к распаковке …/8-mysql-server-core-8.0_8.0.36-0ubuntu0.22.04.1_amd64.deb …
+Распаковывается mysql-server-core-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Настраивается пакет mysql-common (5.8+1.0.8) …
+update-alternatives: используется /etc/mysql/my.cnf.fallback для предоставления /etc/mysql/my.cnf (my.cnf) в автоматическом режиме
+Выбор ранее не выбранного пакета mysql-server-8.0.
+(Чтение базы данных … на данный момент установлено 188322 файла и каталога.)
+Подготовка к распаковке …/00-mysql-server-8.0_8.0.36-0ubuntu0.22.04.1_amd64.deb …
+Распаковывается mysql-server-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Выбор ранее не выбранного пакета libcgi-pm-perl.
+Подготовка к распаковке …/01-libcgi-pm-perl_4.54-1_all.deb …
+Распаковывается libcgi-pm-perl (4.54-1) …
+Выбор ранее не выбранного пакета libfcgi0ldbl:amd64.
+Подготовка к распаковке …/02-libfcgi0ldbl_2.4.2-2build2_amd64.deb …
+Распаковывается libfcgi0ldbl:amd64 (2.4.2-2build2) …
+Выбор ранее не выбранного пакета libfcgi-perl:amd64.
+Подготовка к распаковке …/03-libfcgi-perl_0.82+ds-1build1_amd64.deb …
+Распаковывается libfcgi-perl:amd64 (0.82+ds-1build1) …
+Выбор ранее не выбранного пакета libcgi-fast-perl.
+Подготовка к распаковке …/04-libcgi-fast-perl_1%3a2.15-1_all.deb …
+Распаковывается libcgi-fast-perl (1:2.15-1) …
+Выбор ранее не выбранного пакета libfcgi-bin.
+Подготовка к распаковке …/05-libfcgi-bin_2.4.2-2build2_amd64.deb …
+Распаковывается libfcgi-bin (2.4.2-2build2) …
+Выбор ранее не выбранного пакета libhtml-template-perl.
+Подготовка к распаковке …/06-libhtml-template-perl_2.97-1.1_all.deb …
+Распаковывается libhtml-template-perl (2.97-1.1) …
+Выбор ранее не выбранного пакета mecab-utils.
+Подготовка к распаковке …/07-mecab-utils_0.996-14build9_amd64.deb …
+Распаковывается mecab-utils (0.996-14build9) …
+Выбор ранее не выбранного пакета mecab-ipadic.
+Подготовка к распаковке …/08-mecab-ipadic_2.7.0-20070801+main-3_all.deb …
+Распаковывается mecab-ipadic (2.7.0-20070801+main-3) …
+Выбор ранее не выбранного пакета mecab-ipadic-utf8.
+Подготовка к распаковке …/09-mecab-ipadic-utf8_2.7.0-20070801+main-3_all.deb …
+Распаковывается mecab-ipadic-utf8 (2.7.0-20070801+main-3) …
+Выбор ранее не выбранного пакета mysql-server.
+Подготовка к распаковке …/10-mysql-server_8.0.36-0ubuntu0.22.04.1_all.deb …
+Распаковывается mysql-server (8.0.36-0ubuntu0.22.04.1) …
+Настраивается пакет libmecab2:amd64 (0.996-14build9) …
+Настраивается пакет mysql-client-core-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Настраивается пакет libfcgi0ldbl:amd64 (2.4.2-2build2) …
+Настраивается пакет libcgi-pm-perl (4.54-1) …
+Настраивается пакет libfcgi-bin (2.4.2-2build2) …
+Настраивается пакет libhtml-template-perl (2.97-1.1) …
+Настраивается пакет libprotobuf-lite23:amd64 (3.12.4-1ubuntu7.22.04.1) …
+Настраивается пакет mecab-utils (0.996-14build9) …
+Настраивается пакет libevent-core-2.1-7:amd64 (2.1.12-stable-1build3) …
+Настраивается пакет mysql-client-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Настраивается пакет libfcgi-perl:amd64 (0.82+ds-1build1) …
+Настраивается пакет libaio1:amd64 (0.3.112-13build1) …
+Настраивается пакет libevent-pthreads-2.1-7:amd64 (2.1.12-stable-1build3) …
+Настраивается пакет mecab-ipadic (2.7.0-20070801+main-3) …
+Compiling IPA dictionary for Mecab.  This takes long time...
+reading /usr/share/mecab/dic/ipadic/unk.def ... 40
+emitting double-array: 100% |###########################################|
+/usr/share/mecab/dic/ipadic/model.def is not found. skipped.
+reading /usr/share/mecab/dic/ipadic/Prefix.csv ... 221
+reading /usr/share/mecab/dic/ipadic/Filler.csv ... 19
+reading /usr/share/mecab/dic/ipadic/Suffix.csv ... 1393
+reading /usr/share/mecab/dic/ipadic/Adverb.csv ... 3032
+reading /usr/share/mecab/dic/ipadic/Noun.place.csv ... 72999
+reading /usr/share/mecab/dic/ipadic/Noun.name.csv ... 34202
+reading /usr/share/mecab/dic/ipadic/Postp-col.csv ... 91
+reading /usr/share/mecab/dic/ipadic/Noun.proper.csv ... 27328
+reading /usr/share/mecab/dic/ipadic/Adj.csv ... 27210
+reading /usr/share/mecab/dic/ipadic/Others.csv ... 2
+reading /usr/share/mecab/dic/ipadic/Verb.csv ... 130750
+reading /usr/share/mecab/dic/ipadic/Noun.number.csv ... 42
+reading /usr/share/mecab/dic/ipadic/Noun.adjv.csv ... 3328
+reading /usr/share/mecab/dic/ipadic/Symbol.csv ... 208
+reading /usr/share/mecab/dic/ipadic/Postp.csv ... 146
+reading /usr/share/mecab/dic/ipadic/Noun.verbal.csv ... 12146
+reading /usr/share/mecab/dic/ipadic/Noun.adverbal.csv ... 795
+reading /usr/share/mecab/dic/ipadic/Noun.csv ... 60477
+reading /usr/share/mecab/dic/ipadic/Noun.org.csv ... 16668
+reading /usr/share/mecab/dic/ipadic/Noun.nai.csv ... 42
+reading /usr/share/mecab/dic/ipadic/Noun.demonst.csv ... 120
+reading /usr/share/mecab/dic/ipadic/Noun.others.csv ... 151
+reading /usr/share/mecab/dic/ipadic/Conjunction.csv ... 171
+reading /usr/share/mecab/dic/ipadic/Adnominal.csv ... 135
+reading /usr/share/mecab/dic/ipadic/Auxil.csv ... 199
+reading /usr/share/mecab/dic/ipadic/Interjection.csv ... 252
+emitting double-array: 100% |###########################################|
+reading /usr/share/mecab/dic/ipadic/matrix.def ... 1316x1316
+emitting matrix      : 100% |###########################################|
+
+done!
+update-alternatives: используется /var/lib/mecab/dic/ipadic для предоставления /var/lib/mecab/dic/debian (mecab-dictionary) в автоматическом режиме
+Настраивается пакет libcgi-fast-perl (1:2.15-1) …
+Настраивается пакет mysql-server-core-8.0 (8.0.36-0ubuntu0.22.04.1) …
+Настраивается пакет mecab-ipadic-utf8 (2.7.0-20070801+main-3) …
+Compiling IPA dictionary for Mecab.  This takes long time...
+reading /usr/share/mecab/dic/ipadic/unk.def ... 40
+emitting double-array: 100% |###########################################|
+/usr/share/mecab/dic/ipadic/model.def is not found. skipped.
+reading /usr/share/mecab/dic/ipadic/Prefix.csv ... 221
+reading /usr/share/mecab/dic/ipadic/Filler.csv ... 19
+reading /usr/share/mecab/dic/ipadic/Suffix.csv ... 1393
+reading /usr/share/mecab/dic/ipadic/Adverb.csv ... 3032
+reading /usr/share/mecab/dic/ipadic/Noun.place.csv ... 72999
+reading /usr/share/mecab/dic/ipadic/Noun.name.csv ... 34202
+reading /usr/share/mecab/dic/ipadic/Postp-col.csv ... 91
+reading /usr/share/mecab/dic/ipadic/Noun.proper.csv ... 27328
+reading /usr/share/mecab/dic/ipadic/Adj.csv ... 27210
+reading /usr/share/mecab/dic/ipadic/Others.csv ... 2
+reading /usr/share/mecab/dic/ipadic/Verb.csv ... 130750
+reading /usr/share/mecab/dic/ipadic/Noun.number.csv ... 42
+reading /usr/share/mecab/dic/ipadic/Noun.adjv.csv ... 3328
+reading /usr/share/mecab/dic/ipadic/Symbol.csv ... 208
+reading /usr/share/mecab/dic/ipadic/Postp.csv ... 146
+reading /usr/share/mecab/dic/ipadic/Noun.verbal.csv ... 12146
+reading /usr/share/mecab/dic/ipadic/Noun.adverbal.csv ... 795
+reading /usr/share/mecab/dic/ipadic/Noun.csv ... 60477
+reading /usr/share/mecab/dic/ipadic/Noun.org.csv ... 16668
+reading /usr/share/mecab/dic/ipadic/Noun.nai.csv ... 42
+reading /usr/share/mecab/dic/ipadic/Noun.demonst.csv ... 120
+reading /usr/share/mecab/dic/ipadic/Noun.others.csv ... 151
+reading /usr/share/mecab/dic/ipadic/Conjunction.csv ... 171
+reading /usr/share/mecab/dic/ipadic/Adnominal.csv ... 135
+reading /usr/share/mecab/dic/ipadic/Auxil.csv ... 199
+reading /usr/share/mecab/dic/ipadic/Interjection.csv ... 252
+emitting double-array: 100% |###########################################|
+reading /usr/share/mecab/dic/ipadic/matrix.def ... 1316x1316
+emitting matrix      : 100% |###########################################|
+
+done!
+update-alternatives: используется /var/lib/mecab/dic/ipadic-utf8 для предоставления /var/lib/mecab/dic/debian (mecab-dictionary) в автоматическом режиме
+Настраивается пакет mysql-server-8.0 (8.0.36-0ubuntu0.22.04.1) …
+update-alternatives: используется /etc/mysql/mysql.cnf для предоставления /etc/mysql/my.cnf (my.cnf) в автоматическом режиме
+Renaming removed key_buffer and myisam-recover options (if present)
+mysqld will log errors to /var/log/mysql/error.log
+mysqld is running as pid 4161
+Created symlink /etc/systemd/system/multi-user.target.wants/mysql.service > /lib/systemd/system/mysql.service.
+Настраивается пакет mysql-server (8.0.36-0ubuntu0.22.04.1) …
+Обрабатываются триггеры для man-db (2.10.2-1) …
+Обрабатываются триггеры для libc-bin (2.35-0ubuntu3.8) …
+
+# Проверим статус сервиса MySQL
+root@mik-aleks-VirtualBox:/home/mik-aleks# systemctl status mysql
+? mysql.service - MySQL Community Server
+     Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sat 2024-06-08 15:28:14 EET; 1min 32s ago
+    Process: 4343 ExecStartPre=/usr/share/mysql/mysql-systemd-start pre (code=exited, status=0/SUCCESS)
+   Main PID: 4351 (mysqld)
+     Status: "Server is operational"
+      Tasks: 37 (limit: 9428)
+     Memory: 365.6M
+        CPU: 1.712s
+     CGroup: /system.slice/mysql.service
+             L-4351 /usr/sbin/mysqld
+июн 08 15:28:13 mik-aleks-VirtualBox systemd[1]: Starting MySQL Community Server...
+июн 08 15:28:14 mik-aleks-VirtualBox systemd[1]: Started MySQL Community Server.
+root@mik-aleks-VirtualBox:/home/mik-aleks# systemctl start mysql
+
+# Включим MySQL для автоматического запуска при загрузке системы
+root@mik-aleks-VirtualBox:/home/mik-aleks# systemctl enable mysql
+Synchronizing state of mysql.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable mysql
+
+# Подключимся к MySQL
+root@mik-aleks-VirtualBox:/home/mik-aleks# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.36-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> exit
+Bye
+root@mik-aleks-VirtualBox:/home/mik-aleks#
+
+
+!!!!Данные команды не запускались и приводятся в качестве ответа на задание 4.
+При помощи команды dpkg можно проверить установку:
+dpkg -l | grep <имя пакета>
+
+Или удалить пакет
+dpkg -r <имя пакета>
+
+
+7. Работа с MySQL (Задача выполняется в случае успешного выполнения задачи “Работа с MySQL в Linux. “Установить MySQL на вашу машину”
+
+root@mik-aleks-VirtualBox:/home/mik-aleks# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.36-0ubuntu0.22.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+-- Создадим базу данных HumanFriends
+mysql> CREATE DATABASE HumanFriends;
+Query OK, 1 row affected (0,01 sec)
+
+mysql> USE HumanFriends;
+Database changed
+
+-- Создадим таблицы, соответствующие диаграмме классов.
+-- Таблица для домашних животных (Pets)
+mysql> CREATE TABLE Pets (
+    ->     ID INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(50),
+    ->     Type VARCHAR(50),
+    ->     BirthDate DATE,
+    ->     Commands VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+-- Таблица для вьючных животных (PackAnimals)
+mysql> CREATE TABLE PackAnimals (
+    ->     ID INT AUTO_INCREMENT PRIMARY KEY,
+    ->     Name VARCHAR(50),
+    ->     Type VARCHAR(50),
+    ->     BirthDate DATE,
+    ->     Commands VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0,03 sec)
+
+-- Заполним таблицы данными
+-- Заполнение таблицы Pets
+mysql> INSERT INTO Pets (Name, Type, BirthDate, Commands) VALUES
+    -> ('Fido', 'Dog', '2020-01-01', 'Sit, Stay, Fetch'),
+    -> ('Whiskers', 'Cat', '2019-05-15', 'Sit, Pounce'),
+    -> ('Hammy', 'Hamster', '2021-03-10', 'Roll, Hide'),
+    -> ('Buddy', 'Dog', '2018-12-10', 'Sit, Paw, Bark'),
+    -> ('Smudge', 'Cat', '2020-02-20', 'Sit, Pounce, Scratch'),
+    -> ('Peanut', 'Hamster', '2021-08-01', 'Roll, Spin'),
+lla',    -> ('Bella', 'Dog', '2019-11-11', 'Sit, Stay, Roll'),
+    -> ('Oliver', 'Cat', '2020-06-30', 'Meow, Scratch, Jump');
+Query OK, 8 rows affected (0,01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+-- Заполнение таблицы PackAnimals
+mysql> INSERT INTO PackAnimals (Name, Type, BirthDate, Commands) VALUES
+    -> ('Thunder', 'Horse', '2015-07-21', 'Trot, Canter, Gallop'),
+',     -> ('Sandy', 'Camel', '2016-11-03', 'Walk, Carry Load'),
+    -> ('Eeyore', 'Donkey', '2017-09-18', 'Walk, Carry Load, Bray'),
+    -> ('Storm', 'Horse', '2014-05-05', 'Trot, Canter'),
+, 'Do    -> ('Dune', 'Camel', '2018-12-12', 'Walk, Sit'),
+    -> ('Burro', 'Donkey', '2019-01-23', 'Walk, Bray, Kick'),
+    -> ('Blaze', 'Horse', '2016-02-29', 'Trot, Jump, Gallop'),
+    -> ('Sahara', 'Camel', '2015-08-14', 'Walk, Run');
+Query OK, 8 rows affected (0,01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+-- Глянем что получилось
+mysql> SELECT * FROM Pets;
++----+----------+---------+------------+----------------------+
+| ID | Name     | Type    | BirthDate  | Commands             |
++----+----------+---------+------------+----------------------+
+|  1 | Fido     | Dog     | 2020-01-01 | Sit, Stay, Fetch     |
+|  2 | Whiskers | Cat     | 2019-05-15 | Sit, Pounce          |
+|  3 | Hammy    | Hamster | 2021-03-10 | Roll, Hide           |
+|  4 | Buddy    | Dog     | 2018-12-10 | Sit, Paw, Bark       |
+|  5 | Smudge   | Cat     | 2020-02-20 | Sit, Pounce, Scratch |
+|  6 | Peanut   | Hamster | 2021-08-01 | Roll, Spin           |
+|  7 | Bella    | Dog     | 2019-11-11 | Sit, Stay, Roll      |
+|  8 | Oliver   | Cat     | 2020-06-30 | Meow, Scratch, Jump  |
++----+----------+---------+------------+----------------------+
+8 rows in set (0,00 sec)
+
+mysql> SELECT * FROM PackAnimals;
++----+---------+--------+------------+------------------------+
+| ID | Name    | Type   | BirthDate  | Commands               |
++----+---------+--------+------------+------------------------+
+|  1 | Thunder | Horse  | 2015-07-21 | Trot, Canter, Gallop   |
+|  2 | Sandy   | Camel  | 2016-11-03 | Walk, Carry Load       |
+|  3 | Eeyore  | Donkey | 2017-09-18 | Walk, Carry Load, Bray |
+|  4 | Storm   | Horse  | 2014-05-05 | Trot, Canter           |
+|  5 | Dune    | Camel  | 2018-12-12 | Walk, Sit              |
+|  6 | Burro   | Donkey | 2019-01-23 | Walk, Bray, Kick       |
+|  7 | Blaze   | Horse  | 2016-02-29 | Trot, Jump, Gallop     |
+|  8 | Sahara  | Camel  | 2015-08-14 | Walk, Run              |
++----+---------+--------+------------+------------------------+
+8 rows in set (0,00 sec)
+
+-- Удалим записи о верблюдах
+mysql> DELETE FROM PackAnimals WHERE Type = 'Camel';
+Query OK, 3 rows affected (0,00 sec)
+
+-- Создадим новую таблицу для лошадей и ослов
+mysql> CREATE TABLE HorsesAndDonkeys AS
+    -> SELECT * FROM PackAnimals WHERE Type IN ('Horse', 'Donkey');
+Query OK, 5 rows affected (0,04 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+-- Создадим таблицу для животных в возрасте от 1 до 3 лет и вычисление их возраста с точностью до месяца
+mysql> CREATE TABLE YoungAnimals AS
+    -> SELECT
+    ->     ID, Name, Type, BirthDate, Commands,
+    ->     TIMESTAMPDIFF(MONTH, BirthDate, CURDATE()) AS AgeInMonths
+    -> FROM
+    ->     (SELECT * FROM Pets UNION ALL SELECT * FROM HorsesAndDonkeys) AS AllAnimals
+    -> WHERE
+    ->     TIMESTAMPDIFF(YEAR, BirthDate, CURDATE()) BETWEEN 1 AND 3;
+Query OK, 3 rows affected (0,04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+-- Создадим объединенную таблицу сохраняя информацию о принадлежности к исходным таблицам
+mysql> CREATE TABLE AllAnimals AS
+    -> SELECT
+    ->     ID, Name, Type, BirthDate, Commands, 'Pets' AS Source
+    -> FROM
+    ->     Pets
+    -> UNION ALL
+    -> SELECT
+    ->     ID, Name, Type, BirthDate, Commands, 'HorsesAndDonkeys' AS Source
+    -> FROM
+    ->     HorsesAndDonkeys
+    -> UNION ALL
+    -> SELECT
+    ->     ID, Name, Type, BirthDate, Commands, 'YoungAnimals' AS Source
+    -> FROM
+    ->     YoungAnimals;
+Query OK, 16 rows affected (0,04 sec)
+Records: 16  Duplicates: 0  Warnings: 0
+
+-- Смотрим что получилось
+mysql> SELECT * FROM AllAnimals;
++----+----------+---------+------------+------------------------+------------------+
+| ID | Name     | Type    | BirthDate  | Commands               | Source           |
++----+----------+---------+------------+------------------------+------------------+
+|  1 | Fido     | Dog     | 2020-01-01 | Sit, Stay, Fetch       | Pets             |
+|  2 | Whiskers | Cat     | 2019-05-15 | Sit, Pounce            | Pets             |
+|  3 | Hammy    | Hamster | 2021-03-10 | Roll, Hide             | Pets             |
+|  4 | Buddy    | Dog     | 2018-12-10 | Sit, Paw, Bark         | Pets             |
+|  5 | Smudge   | Cat     | 2020-02-20 | Sit, Pounce, Scratch   | Pets             |
+|  6 | Peanut   | Hamster | 2021-08-01 | Roll, Spin             | Pets             |
+|  7 | Bella    | Dog     | 2019-11-11 | Sit, Stay, Roll        | Pets             |
+|  8 | Oliver   | Cat     | 2020-06-30 | Meow, Scratch, Jump    | Pets             |
+|  1 | Thunder  | Horse   | 2015-07-21 | Trot, Canter, Gallop   | HorsesAndDonkeys |
+|  3 | Eeyore   | Donkey  | 2017-09-18 | Walk, Carry Load, Bray | HorsesAndDonkeys |
+|  4 | Storm    | Horse   | 2014-05-05 | Trot, Canter           | HorsesAndDonkeys |
+|  6 | Burro    | Donkey  | 2019-01-23 | Walk, Bray, Kick       | HorsesAndDonkeys |
+|  7 | Blaze    | Horse   | 2016-02-29 | Trot, Jump, Gallop     | HorsesAndDonkeys |
+|  3 | Hammy    | Hamster | 2021-03-10 | Roll, Hide             | YoungAnimals     |
+|  6 | Peanut   | Hamster | 2021-08-01 | Roll, Spin             | YoungAnimals     |
+|  8 | Oliver   | Cat     | 2020-06-30 | Meow, Scratch, Jump    | YoungAnimals     |
++----+----------+---------+------------+------------------------+------------------+
+16 rows in set (0,00 sec)
+
+mysql> exit
+Bye
+root@mik-aleks-VirtualBox:/home/mik-aleks#
